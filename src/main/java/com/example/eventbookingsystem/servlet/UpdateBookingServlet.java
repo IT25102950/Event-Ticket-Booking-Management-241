@@ -33,6 +33,11 @@ public class UpdateBookingServlet {
         booking.setStatus(status);
         booking.setNumSeats(numSeats);
 
+        // Recalculate price based on booking type and number of seats
+        double pricePerSeat = "VIP".equals(booking.getBookingType()) ? 100.0 : 50.0;
+        double newTotalPrice = pricePerSeat * numSeats;
+        booking.setTotalPrice(newTotalPrice);
+
         boolean success = bookingDAO.updateBooking(booking);
 
         if (success) {
@@ -43,4 +48,6 @@ public class UpdateBookingServlet {
             return "editBooking";
         }
     }
+
+
 }
