@@ -109,7 +109,7 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
+                            <th scope="col">User ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Role</th>
@@ -120,7 +120,7 @@
                         <% if (users != null && !users.isEmpty()) {
                              for (User u : users) { %>
                         <tr>
-                            <td><%= u.getId() %></td>
+                            <td><%= String.format("USR%03d", u.getId()) %></td>
                             <td><%= u.getName() %></td>
                             <td><%= u.getEmail() %></td>
                             <td>

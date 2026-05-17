@@ -137,13 +137,51 @@
                 <label for="email" class="form-label">Email Address</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" required>
             </div>
+            <div class="form-group">
+                <label for="country" class="form-label">Country</label>
+                <select class="form-control" id="country" name="country" required>
+                    <option value="" disabled selected>Select your country</option>
+                    <!-- Asia -->
+                    <option value="Sri Lanka">Sri Lanka</option>
+                    <option value="India">India</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Bangladesh">Bangladesh</option>
+                    <option value="Nepal">Nepal</option>
+                    <option value="Maldives">Maldives</option>
+                    <option value="Japan">Japan</option>
+                    <option value="China">China</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Thailand">Thailand</option>
+                    <option value="UAE">UAE</option>
+                    <!-- Western -->
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                    <option value="United States">United States</option>
+                    <option value="Germany">Germany</option>
+                    <option value="France">France</option>
+                </select>
+            </div>
 
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter a strong password" required>
+                <input type="password" class="form-control" id="password"
+                       name="password" placeholder="Enter a strong password" required>
             </div>
 
-            <button type="submit" class="btn-register">Register</button>
+            <div class="form-group">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword"
+                       placeholder="Re-enter your password" required>
+                <div id="passwordError" style="color:red;font-size:13px;margin-top:5px;display:none;">
+                    Passwords do not match!
+                </div>
+            </div>
+
+            <button type="submit" class="btn-register" onclick="return checkPasswords()">
+                Register
+            </button>
         </form>
 
         <div class="login-link">
@@ -153,5 +191,18 @@
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    function checkPasswords() {
+        var password = document.getElementById('password').value;
+        var confirm = document.getElementById('confirmPassword').value;
+        if (password !== confirm) {
+            document.getElementById('passwordError').style.display = 'block';
+            return false; // stops form from submitting
+        }
+        return true; // allows form to submit
+    }
+    </script>
+
 </body>
 </html>
