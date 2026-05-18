@@ -59,8 +59,7 @@ public class CardPayment extends Payment {
         return expiryDate;
     }
 
-    public void setCardNumber(String cardNumber)
-    {
+    public void setCardNumber(String cardNumber){
         this.cardNumber = maskCardNumber(cardNumber);
     }
     public void setCardHolder(String cardHolder) {

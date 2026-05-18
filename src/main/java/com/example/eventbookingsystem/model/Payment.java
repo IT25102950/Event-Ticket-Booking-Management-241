@@ -78,8 +78,10 @@ public abstract class Payment {
     @Override
     public String toString() {
         return "Payment{" + "paymentId=" + paymentId +
-                ", bookingId=" + bookingId + ", customerName='" + customerName + '\'' +
-                ", amount=" + amount + ", method='" + paymentMethod + '\'' + ", status='" + status + '\'' +
+                ", bookingId=" + bookingId +
+                ", customerName='" + customerName + '\'' +
+                ", amount=" + amount + ", method='" + paymentMethod + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

@@ -31,7 +31,7 @@ public class CashPayment extends Payment {
         }
 
         setStatus("COMPLETED");
-        this.changeGiven = amountReceived - getAmount();
+        this.changeGiven = amountReceived - getAmount(); // for Recalculate change
 
         return "Cash payment of Rs." + String.format("%.2f", getAmount())
                 + " received successfully. "
