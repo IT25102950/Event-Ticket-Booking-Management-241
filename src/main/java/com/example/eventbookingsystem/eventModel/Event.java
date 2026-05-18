@@ -1,7 +1,14 @@
 package com.example.eventbookingsystem.eventModel;
+import java.io.Serializable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-public class Event {
+@Entity
+@Table(name = "events")
+public class Event implements java.io.Serializable {
 
+    @Id
     private int id;
     private String name;
     private String type;

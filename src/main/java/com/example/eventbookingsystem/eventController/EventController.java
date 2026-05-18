@@ -16,24 +16,19 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    // Add Event
     @PostMapping
     public String addEvent(@RequestBody Event event) {
-
         eventService.addEvent(event);
-
         return "Event Added Successfully";
     }
 
     @GetMapping
     public List<Event> getAllEvents() {
-
         return eventService.getAllEvents();
     }
 
     @GetMapping("/search/{name}")
     public List<Event> searchEvents(@PathVariable String name) {
-
         return eventService.searchEvents(name);
     }
 

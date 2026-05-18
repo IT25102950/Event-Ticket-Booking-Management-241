@@ -15,6 +15,7 @@ public class EventBookingSystemApplication extends SpringBootServletInitializer 
     public static void main(String[] args) {
         SpringApplication.run(EventBookingSystemApplication.class, args);
     }
+}
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
