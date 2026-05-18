@@ -28,7 +28,7 @@ public class BookingServlet {
         return "bookingForm";
     }
 
-    // Handle booking form submission
+    // Handle booking  submission
     @PostMapping("/booking")
     public String createBooking(
             @RequestParam String userId,

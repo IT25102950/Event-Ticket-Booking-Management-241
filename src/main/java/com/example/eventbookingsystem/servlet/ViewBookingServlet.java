@@ -11,7 +11,7 @@ import java.util.List;
 
 @Controller
 public class ViewBookingServlet {
-
+    //object
     private BookingDAO bookingDAO = new BookingDAO();
 
     @GetMapping("/viewBookings")
