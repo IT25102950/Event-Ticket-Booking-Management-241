@@ -4,10 +4,8 @@ package com.example.eventbookingsystem.model;
 //  Inheritance ( SuperAdmin extends Admin)
 public class SuperAdmin extends Admin {
 
-    // SuperAdmin constructor
-    public SuperAdmin(String username, String password, String email, String fullName) {
 
-        // Call parent class constructor
+    public SuperAdmin(String username, String password, String email, String fullName) {
         super(username, password, email, fullName, "SUPER_ADMIN");
     }
 

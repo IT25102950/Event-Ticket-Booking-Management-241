@@ -18,28 +18,12 @@
             color: #1f2937;
             min-height: 100vh;
         }
-        .navbar {
-            background-color: #0a0e1a;
-        }
-        .navbar-brand, .nav-link, .btn-logout {
-            color: #ffffff !important;
-        }
-        .btn-logout {
-            background-color: #e63946;
-            border-color: #e63946;
-        }
-        .btn-logout:hover {
-            background-color: #d62839;
-            border-color: #d62839;
-        }
-        .page-title {
-            font-weight: 700;
-            color: #0a0e1a;
-        }
-        .title-row {
-            align-items: center;
-            justify-content: space-between;
-        }
+        .navbar { background-color: #0a0e1a; }
+        .navbar-brand, .nav-link, .btn-logout { color: #ffffff !important; }
+        .btn-logout { background-color: #e63946; border-color: #e63946; }
+        .btn-logout:hover { background-color: #d62839; border-color: #d62839; }
+        .page-title { font-weight: 700; color: #0a0e1a; }
+        .title-row { align-items: center; justify-content: space-between; }
         .title-row .badge {
             background-color: #0a0e1a;
             color: #ffffff;
@@ -51,33 +35,17 @@
             border-radius: 18px;
             box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
         }
-        .table thead {
-            background-color: #f8fafc;
-        }
+        .table thead { background-color: #f8fafc; }
         .table th {
             border-bottom: 1px solid #e5e7eb;
             color: #0a0e1a;
             font-weight: 600;
         }
-        .table td {
-            color: #374151;
-        }
-        .table tbody tr {
-            background-color: #ffffff;
-        }
-        .table tbody tr:hover {
-            background-color: #f8fafc;
-        }
-        .badge-role-admin {
-            background-color: #e63946;
-            color: #ffffff;
-            font-weight: 600;
-        }
-        .badge-role-user {
-            background-color: #1d4ed8;
-            color: #ffffff;
-            font-weight: 600;
-        }
+        .table td { color: #374151; }
+        .table tbody tr { background-color: #ffffff; }
+        .table tbody tr:hover { background-color: #f8fafc; }
+        .badge-role-admin { background-color: #e63946; color: #ffffff; font-weight: 600; }
+        .badge-role-user { background-color: #1d4ed8; color: #ffffff; font-weight: 600; }
         .badge-protected {
             background-color: #6b7280;
             color: #ffffff;
@@ -91,15 +59,8 @@
             padding: 0.35rem 0.8rem;
             font-size: 0.85rem;
         }
-        .btn-delete:hover {
-            background-color: #d62839;
-            border-color: #d62839;
-        }
-        .empty-state {
-            padding: 30px;
-            text-align: center;
-            color: #6b7280;
-        }
+        .btn-delete:hover { background-color: #d62839; border-color: #d62839; }
+        .empty-state { padding: 30px; text-align: center; color: #6b7280; }
     </style>
 </head>
 <body>
@@ -123,11 +84,32 @@
     </div>
     <div class="card">
         <div class="card-body p-0">
+
+            <!-- Search bar -->
+            <div class="px-4 pt-4">
+                <div class="row g-2 align-items-center mb-3">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input id="userSearch" type="search"
+                                   class="form-control"
+                                   placeholder="Search by name or email">
+                            <button id="userSearchButton" type="button"
+                                    class="btn btn-outline-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="noUsersFound"
+                     class="alert alert-warning py-2 px-3 mb-3 d-none">
+                    No users found.
+                </div>
+            </div>
+
+            <!-- Users table -->
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
+                            <th scope="col">User ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Role</th>
@@ -138,7 +120,7 @@
                         <% if (users != null && !users.isEmpty()) {
                              for (User u : users) { %>
                         <tr>
-                            <td><%= u.getId() %></td>
+                            <td><%= String.format("USR%03d", u.getId()) %></td>
                             <td><%= u.getName() %></td>
                             <td><%= u.getEmail() %></td>
                             <td>
@@ -152,9 +134,12 @@
                                 <a href="/editUser?id=<%= u.getId() %>"
                                    class="btn btn-warning btn-sm me-1">Edit</a>
                                 <% if (!"admin".equals(u.getRole())) { %>
-                                    <form action="/deleteUser" method="post" class="d-inline">
-                                        <input type="hidden" name="userId" value="<%= u.getId() %>">
-                                        <button type="submit" class="btn btn-delete btn-sm"
+                                    <form action="/deleteUser" method="post"
+                                          class="d-inline">
+                                        <input type="hidden" name="userId"
+                                               value="<%= u.getId() %>">
+                                        <button type="submit"
+                                                class="btn btn-delete btn-sm"
                                                 onclick="return confirm('Are you sure?')">
                                             Delete
                                         </button>
@@ -174,9 +159,44 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Search JavaScript -->
+<script>
+    (function() {
+        var searchInput = document.getElementById('userSearch');
+        var searchButton = document.getElementById('userSearchButton');
+        var tableBody = document.querySelector('.table tbody');
+        var noResults = document.getElementById('noUsersFound');
+
+        function filterUsers() {
+            var query = searchInput.value.trim().toLowerCase();
+            var rows = tableBody.querySelectorAll('tr');
+            var visibleCount = 0;
+            rows.forEach(function(row) {
+                var nameCell = row.querySelector('td:nth-child(2)');
+                var emailCell = row.querySelector('td:nth-child(3)');
+                if (!nameCell || !emailCell) return;
+                var nameText = nameCell.textContent.trim().toLowerCase();
+                var emailText = emailCell.textContent.trim().toLowerCase();
+                var matches = !query ||
+                    nameText.indexOf(query) !== -1 ||
+                    emailText.indexOf(query) !== -1;
+                row.style.display = matches ? '' : 'none';
+                if (matches) visibleCount++;
+            });
+            noResults.classList.toggle('d-none', visibleCount > 0);
+        }
+
+        searchInput.addEventListener('input', filterUsers);
+        searchButton.addEventListener('click', filterUsers);
+    })();
+</script>
+
 </body>
 </html>

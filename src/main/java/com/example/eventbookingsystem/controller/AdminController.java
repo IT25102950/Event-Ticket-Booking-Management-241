@@ -15,7 +15,7 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    // ── LOGIN ──────────────────────────────────────────────────────
+    // Login
 
     @GetMapping("/login")
     public String showLoginPage() {
@@ -42,11 +42,11 @@ public class AdminController {
         return "admin/login";
     }
 
-    // ── DASHBOARD ──────────────────────────────────────────────────
+    // Dashboard
 
     @GetMapping("/dashboard")
     public String showDashboard(HttpSession session, Model model) {
-        // Check if logged in
+
         if (session.getAttribute("loggedAdmin") == null) {
             return "admin/login";
         }
@@ -56,27 +56,25 @@ public class AdminController {
         model.addAttribute("admins", adminService.getAllAdmins());
         model.addAttribute("totalAdmins", adminService.getAllAdmins().size());
 
-        // This tells the HTML page if the person is SuperAdmin or not
-        // true = SuperAdmin, false = Moderator
+
         model.addAttribute("isSuperAdmin",
                 loggedAdmin.getRole().equals("SUPER_ADMIN"));
 
         return "admin/dashboard";
     }
 
-    // ── MANAGE ADMINS ──────────────────────────────────────────────
+    // Admin manage
 
     @GetMapping("/manage")
     public String manageAdmins(Model model, HttpSession session) {
-        // Check if logged in
+
         if (session.getAttribute("loggedAdmin") == null) {
             return "admin/login";
         }
 
         Admin loggedAdmin = (Admin) session.getAttribute("loggedAdmin");
 
-        // Only SUPER_ADMIN can access this page
-        // If Moderator tries to open this page, send them to Access Denied
+
         if (!loggedAdmin.getRole().equals("SUPER_ADMIN")) {
             return "admin/accessdenied";
         }
@@ -86,11 +84,11 @@ public class AdminController {
         return "admin/manageAdmins";
     }
 
-    // ── ADD ADMIN ──────────────────────────────────────────────────
+    // Add admin
 
     @GetMapping("/register")
     public String showRegisterForm(HttpSession session, Model model) {
-        // Only SUPER_ADMIN can add new admins
+
         if (session.getAttribute("loggedAdmin") == null) {
             return "admin/login";
         }
@@ -108,12 +106,12 @@ public class AdminController {
         return "admin/manage";
     }
 
-    // ── EDIT ADMIN ─────────────────────────────────────────────────
+    // Edit admin
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable int id,
                                HttpSession session, Model model) {
-        // Only SUPER_ADMIN can edit admins
+
         if (session.getAttribute("loggedAdmin") == null) {
                 return "admin/login";
         }
@@ -132,11 +130,11 @@ public class AdminController {
         return "admin/manage";
     }
 
-    // ── DELETE ADMIN ───────────────────────────────────────────────
+    // Delete admin
 
     @GetMapping("/delete/{id}")
     public String deleteAdmin(@PathVariable int id, HttpSession session) {
-        // Only SUPER_ADMIN can delete admins
+
         if (session.getAttribute("loggedAdmin") == null) {
             return "admin/login";
         }
@@ -148,7 +146,7 @@ public class AdminController {
         return "admin/manage";
     }
 
-    // ── ACCESS DENIED ──────────────────────────────────────────────
+
 
     @GetMapping("/accessdenied")
     public String accessDenied() {

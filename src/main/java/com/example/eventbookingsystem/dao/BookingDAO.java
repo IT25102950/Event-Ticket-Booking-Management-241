@@ -90,14 +90,15 @@ public class BookingDAO {
 
     //update booking
     public boolean updateBooking(Booking booking) {
-        String sql = "UPDATE bookings SET seat_number=?, booking_date=?, status=? , num_seats=? WHERE booking_id=?";
+        String sql = "UPDATE bookings SET seat_number=?, booking_date=?, status=? , num_seats=? ,total_price=? WHERE booking_id=?";
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, booking.getSeatNumber());
             ps.setString(2, booking.getBookingDate());
             ps.setString(3, booking.getStatus());
             ps.setInt(4, booking.getNumSeats());
-            ps.setInt(4, booking.getBookingId());
+            ps.setDouble(5, booking.getTotalPrice());
+            ps.setInt(6, booking.getBookingId());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

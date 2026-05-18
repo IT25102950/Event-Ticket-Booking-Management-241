@@ -14,12 +14,10 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
-    // CREATE - Add a new admin
+    // create
     public Admin addAdmin(Admin admin) {
-        // Save to MySQL database
         Admin saved = adminRepository.save(admin);
 
-        // Also write to admins.txt (File Handling)
         FileHandler.writeAdmin(
                 admin.getUsername(),
                 admin.getEmail(),
@@ -27,28 +25,28 @@ public class AdminService {
                 admin.getRole()
         );
 
-        // Write to activity log
+
         FileHandler.writeLog("Added new admin: " + admin.getUsername(), "System");
 
         return saved;
     }
 
-    // READ - Get all admins
+    // read
     public List<Admin> getAllAdmins() {
         return adminRepository.findAll();
     }
 
-    // READ - Get one admin by ID
+    // read
     public Optional<Admin> getAdminById(int id) {
         return adminRepository.findById(id);
     }
 
-    // READ - Login check
+    // read
     public Admin login(String username, String password) {
         Optional<Admin> admin = adminRepository.findByUsername(username);
         if (admin.isPresent() && admin.get().getPassword().equals(password)) {
 
-            // Write login activity to log file
+
             FileHandler.writeLog("Logged in", username);
 
             return admin.get();
@@ -56,15 +54,15 @@ public class AdminService {
         return null;
     }
 
-    // UPDATE - Edit admin details
+    // update
     public Admin updateAdmin(Admin admin) {
-        // Write to activity log
+
         FileHandler.writeLog("Updated admin: " + admin.getUsername(), "System");
 
         return adminRepository.save(admin);
     }
 
-    // DELETE - Remove an admin
+    // delete
     public void deleteAdmin(int id) {
         // Write to activity log before deleting
         adminRepository.findById(id).ifPresent(a ->

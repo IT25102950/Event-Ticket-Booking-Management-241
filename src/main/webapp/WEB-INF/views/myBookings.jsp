@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: acer
-  Date: 5/14/2026
-  Time: 9:34 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -29,11 +22,11 @@
         .btn-clear { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #8fa3bf; padding: 8px 14px; border-radius: 7px; font-size: 13px; cursor: pointer; transition: all 0.2s; text-decoration: none; }
         .btn-clear:hover { border-color: rgba(255,255,255,0.3); color: #c9d8f0; }
         .table-card { background: #0d1f38; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
-        .table { margin: 0; color: #e8edf5; }
-        .table thead th { background: rgba(255,255,255,0.05); color: #8fa3bf; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 14px 16px; }
-        .table tbody td { border-bottom: 1px solid rgba(255,255,255,0.04); padding: 14px 16px; vertical-align: middle; font-size: 14px; color: #c9d8f0; }
+        .table { margin: 0; color: #e8edf5; background: transparent; }
+        .table thead th { background: rgba(255,255,255,0.05); color: #8fa3bf; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 14px 16px; border-color: rgba(255,255,255,0.08); }
+        .table tbody td { border-bottom: 1px solid rgba(255,255,255,0.04); padding: 14px 16px; vertical-align: middle; font-size: 14px; color: #c9d8f0; background: transparent; border-color: rgba(255,255,255,0.04); }
         .table tbody tr:last-child td { border-bottom: none; }
-        .table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+        .table tbody tr:hover td { background: rgba(255,255,255,0.03); }
         .event-name { color: #ffffff; font-weight: 500; }
         .event-type { color: #6b82a0; font-size: 12px; }
         .badge-vip { background: rgba(234,179,8,0.15); color: #eab308; font-size: 11px; padding: 3px 10px; border-radius: 10px; font-weight: 500; }
@@ -92,6 +85,7 @@
                 <th>Event</th>
                 <th>Type</th>
                 <th>Seat</th>
+                <th>Seats</th>
                 <th>Date</th>
                 <th>Price</th>
                 <th>Status</th>
@@ -108,27 +102,18 @@
                         <div class="event-type">${booking.eventType}</div>
                     </td>
                     <td>
-                        <c:choose>
-                            <c:when test="${booking.bookingType == 'VIP'}">
-                                <span class="badge-vip">⭐ VIP</span>
-                            </c:when>
-                            <c:otherwise>
-                                <span class="badge-std">🎫 STANDARD</span>
-                            </c:otherwise>
-                        </c:choose>
+                            <span class="${booking.bookingType == 'VIP' ? 'badge-vip' : 'badge-std'}">
+                                    ${booking.bookingType == 'VIP' ? '⭐ VIP' : '🎫 STANDARD'}
+                            </span>
                     </td>
                     <td>${booking.seatNumber}</td>
+                    <td>${booking.numSeats}</td>
                     <td>${booking.bookingDate}</td>
                     <td class="price-text">$${booking.totalPrice}</td>
                     <td>
-                        <c:choose>
-                            <c:when test="${booking.status == 'CONFIRMED'}">
-                                <span class="badge-confirmed">✅ Confirmed</span>
-                            </c:when>
-                            <c:otherwise>
-                                <span class="badge-cancelled">❌ Cancelled</span>
-                            </c:otherwise>
-                        </c:choose>
+                            <span class="${booking.status == 'CONFIRMED' ? 'badge-confirmed' : 'badge-cancelled'}">
+                                    ${booking.status == 'CONFIRMED' ? '✅ Confirmed' : '❌ Cancelled'}
+                            </span>
                     </td>
                     <td>
                         <div class="d-flex gap-2">
@@ -143,7 +128,7 @@
             </c:forEach>
             <c:if test="${empty bookings}">
                 <tr>
-                    <td colspan="9">
+                    <td colspan="10">
                         <div class="empty-state">
                             <div class="icon">🎟️</div>
                             <div style="font-size:16px; color:#8fa3bf; margin-bottom:8px;">No bookings found</div>

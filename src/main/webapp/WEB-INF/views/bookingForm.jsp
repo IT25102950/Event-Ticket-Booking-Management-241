@@ -101,9 +101,11 @@
                         <input type="email" name="email" class="form-control" placeholder="john@example.com" required>
                     </div>
 
+                    <!-- User ID hidden - auto filled from session -->
+                    <input type="hidden" name="userId" value="${userId}">
                     <div class="mb-3">
-                        <label class="form-label">User ID</label>
-                        <input type="text" name="userId" class="form-control" placeholder="e.g. user001" required>
+                        <label class="form-label">Booking For</label>
+                        <input type="text" class="form-control" value="${userName}" disabled>
                     </div>
 
                     <div class="mb-3">

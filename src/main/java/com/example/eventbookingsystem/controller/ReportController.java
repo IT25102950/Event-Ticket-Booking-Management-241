@@ -18,7 +18,7 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-    // READ - Show all reports
+    // Read (show all details)
     @GetMapping
     public String showReports(Model model, HttpSession session) {
         if (session.getAttribute("loggedAdmin") == null) {
@@ -28,14 +28,14 @@ public class ReportController {
         return "admin/reportsPanel"; // loads reportsPanel.html
     }
 
-    // CREATE - Generate a new report
+    // Create(Create new report)
     @PostMapping("/generate")
     public String generateReport(@RequestParam String reportTitle,
                                  @RequestParam String reportType,
                                  @RequestParam int totalBookings,
                                  @RequestParam double totalRevenue,
                                  HttpSession session) {
-        // Get the logged in admin's ID
+
         com.example.eventbookingsystem.model.Admin loggedAdmin =
                 (com.example.eventbookingsystem.model.Admin) session.getAttribute("loggedAdmin");
 
@@ -51,7 +51,7 @@ public class ReportController {
         return "redirect:/reports";
     }
 
-    // DELETE - Remove a report
+    // Delete (dlete report)
     @GetMapping("/delete/{id}")
     public String deleteReport(@PathVariable int id) {
         reportService.deleteReport(id);

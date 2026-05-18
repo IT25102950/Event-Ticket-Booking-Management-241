@@ -48,7 +48,10 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public String getAllUsers(Model model) {
+    public String getAllUsers(Model model, HttpSession session) {
+        if (session.getAttribute("loggedUser") == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("users", userService.getAllUsers());
         return "userManagement";
     }
@@ -65,6 +68,9 @@ public class UserController {
             @RequestParam(required = false) Integer id,
             HttpSession session,
             Model model) {
+        if (session.getAttribute("loggedUser") == null) {
+            return "redirect:/login";
+        }
 
         User user;
         if (id != null) {

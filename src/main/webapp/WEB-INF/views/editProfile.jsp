@@ -121,6 +121,15 @@
             <div class="error-message"><%= error %></div>
         <% } %>
         <form action="/editUser" method="post">
+
+            <!-- ADD THIS BLOCK HERE -->
+            <div class="form-group">
+                <label class="form-label">User ID</label>
+                <input type="text" class="form-control"
+                       value="<%= user != null ? String.format("USR%03d", user.getId()) : "" %>"
+                       disabled>
+            </div>
+
             <div class="form-group">
                 <label for="name" class="form-label">Full Name</label>
                 <input type="text" class="form-control" id="name" name="name" value="<%= user != null ? user.getName() : "" %>" required>

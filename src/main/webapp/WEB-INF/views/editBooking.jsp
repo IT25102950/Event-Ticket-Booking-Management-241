@@ -70,14 +70,9 @@
                         </div>
                         <div class="col-md-3">
                             <div style="color:#6b82a0;font-size:11px;margin-bottom:3px;">Ticket</div>
-                            <c:choose xmlns:c="http://java.sun.com/jsp/jstl/core">
-                                <c:when test="${booking.bookingType == 'VIP'}">
-                                    <span class="badge-vip">⭐ VIP</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span class="badge-std">🎫 STANDARD</span>
-                                </c:otherwise>
-                            </c:choose>
+                            <span class="${booking.bookingType == 'VIP' ? 'badge-vip' : 'badge-std'}">
+                                ${booking.bookingType == 'VIP' ? '⭐ VIP' : '🎫 STANDARD'}
+                            </span>
                         </div>
                         <div class="col-md-6">
                             <div style="color:#6b82a0;font-size:11px;margin-bottom:3px;">User ID</div>

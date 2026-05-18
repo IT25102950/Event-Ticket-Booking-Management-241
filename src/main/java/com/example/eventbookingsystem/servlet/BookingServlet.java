@@ -7,6 +7,8 @@ import com.example.eventbookingsystem.model.VIPBooking;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.example.eventbookingsystem.model.User;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class BookingServlet {
@@ -20,7 +22,18 @@ public class BookingServlet {
             @RequestParam(required = false) String eventName,
             @RequestParam(required = false) String eventType,
             @RequestParam(required = false) String seatNumber,
+            HttpServletRequest request,
             Model model) {
+
+        // Check if user is logged in
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
+
+        // Auto fill user ID from session
+        model.addAttribute("userId", String.valueOf(loggedUser.getId()));
+        model.addAttribute("userName", loggedUser.getName());
         model.addAttribute("eventId", eventId);
         model.addAttribute("eventName", eventName);
         model.addAttribute("eventType", eventType);
@@ -28,7 +41,7 @@ public class BookingServlet {
         return "bookingForm";
     }
 
-    // Handle booking form submission
+    // Handle booking  submission
     @PostMapping("/booking")
     public String createBooking(
             @RequestParam String userId,
